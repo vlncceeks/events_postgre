@@ -86,9 +86,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-if os.getenv('production'):
-    # Используйте PostgreSQL на Railway
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': config('PGDATABASE'),
@@ -100,15 +98,7 @@ if os.getenv('production'):
                 'client_encoding': 'UTF8',  # Указываем кодировку
             },
         }
-    }
-else:
-    # Используйте SQLite локально
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config('SECRET_KEY', default='asdfgh12345')
