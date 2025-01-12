@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['demo2-events-production.up.railway.app', 'yourdomain.com', '12
 # FORM SUBMISSION
 # Comment out the following line and place your railway URL, and your production URL in the array.
 CSRF_TRUSTED_ORIGINS = [
-    'https://demo2-events-production.up.railway.app',
+    'https://eventspostgre-production.up.railway.app',
 ]
 CSRF_COOKIE_SECURE = True  # Убедитесь, что это не True, если вы не используете HTTPS
 CSRF_COOKIE_HTTPONLY = True
