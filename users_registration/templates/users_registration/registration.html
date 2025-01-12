@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static 'users_registration/css/users.css' %}"
+    />
+    <title>Регистрация</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <section class="registration">
+        <div class="registration__wrapper">
+          <h1 class="registration__title">Регистрация</h1>
+          <form action="{%url 'users:register'%}" method="post" class="registration__form">
+            {% csrf_token %}
+
+            <!-- Логин -->
+
+            {{form.username}}
+
+            <!-- Email -->
+            {{form.email}}
+
+            <!-- Пароль -->
+            {{form.password1}}
+
+            <!-- Подтверждение пароля -->
+            {{form.password2}}
+
+            <button type="submit" class="registraion__create_acc">
+              Создать аккаунт
+            </button>
+          </form>
+
+          <div class="registration__link_to_entry entry">
+            <p class="entry__text">Есть аккаунт?</p>
+            <a href="{% url 'users:login' %}" class="entry__button">Войти</a>
+            <!-- Здесь правильная ссылка на страницу входа -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

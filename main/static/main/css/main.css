@@ -1,0 +1,367 @@
+:root {
+  --text: #333333;
+  --accent: #6fcf97;
+  --background: #f8f9fa;
+  --gray: #e6e7e8;
+  --accent-hover: #9dd6c2;
+  --accent-active: #27a369;
+  font-size: 62.5%;
+}
+* {
+  box-sizing: border-box;
+}
+*::selection {
+  background-color: var(--accent);
+  color: var(--background);
+}
+body,
+main {
+  background-color: var(--background);
+  margin: 0;
+  width: 100%;
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 3rem 1.5rem;
+  width: 100%;
+}
+@media (min-width: 550px) {
+  .wrapper {
+    padding: 5rem 3rem;
+  }
+}
+
+.container {
+  display: flex;
+  gap: 2rem;
+  margin: 0 0 3rem 0;
+  position: relative;
+}
+.search {
+  background-color: var(--gray);
+  border-radius: 1.5rem;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.search__input {
+  background-color: var(--gray);
+  border: 0;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  padding: 0;
+  min-width: 10rem;
+  width: 100%;
+  font-size: 1.6rem;
+  outline: none;
+}
+.search__form {
+  display: inline-block;
+  line-height: 100%;
+  padding: 0.1rem 0 0 0;
+}
+.search__input:focus {
+  border: 0;
+}
+.search__svg {
+  width: 2rem;
+  height: 2rem;
+}
+.container__entry {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
+}
+.entry__username {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--text);
+  align-self: center;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+.button_of_entry,
+.sign_button,
+.modal__button_close, .modal__book-button {
+  background-color: var(--accent);
+  border: 0;
+  border-radius: 1rem;
+  padding: 0.9rem 0.8rem;
+  color: var(--text);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  transition: 0.3s;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.button_of_entry:hover,
+.sign_button:hover,
+.modal__button_close:hover, .modal__book-button:hover {
+  background-color: var(--accent-hover);
+}
+.button_of_entry:active,
+.sign_button:active,
+.modal__button_close:active, .modal__book-button:active {
+  background-color: var(--accent-active);
+  color: var(--gray);
+}
+.activity {
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.event {
+  background-color: var(--gray);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 2rem;
+}
+.event__container_image {
+  height: 23rem;
+}
+.event__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem 2rem 0 0;
+}
+.content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+summary {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+details summary {
+  list-style: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 3rem 2rem 0;
+  position: relative;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+summary::after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  right: -3rem;
+  margin: 0;
+  display: block;
+  background: url("marker.svg") no-repeat center;
+  background-size: 100% 100%;
+  width: 1.8rem;
+  height: 1.5rem;
+  transition: 0.3s;
+}
+details[open] > summary::after {
+  transform: rotate(180deg);
+  width: 1.8rem;
+  height: 1.5rem;
+}
+summary,
+details p {
+  font-size: 1.6rem;
+  color: var(--text);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  letter-spacing: 0.05em;
+}
+details p {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  text-align: justify;
+  word-spacing: 0.05em;
+  letter-spacing: 0.02em;
+  line-height: 1.7rem;
+}
+.details p::first-letter {
+  padding-left: 1rem;
+}
+.details__materials {
+  margin: 0 0 3rem 0;
+}
+.content__authors,
+.content__date_and_time,
+.content__numbers_of_seats {
+  margin: 1rem 0 0 0;
+  color: var(--text);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 1.2rem;
+}
+.content__authors {
+  margin: 0;
+}
+.sign_button {
+  margin: 2rem 0 0 0;
+  padding: 1.1rem 1.3rem;
+  align-self: center;
+}
+/* -----------------------модальное окно------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: width 2s;
+}
+.modal--show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__card {
+  background-color: var(--background);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  max-width: 600px;
+  padding: 2rem;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  color: var(--text);
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  border: 0;
+  border-radius: 2rem;
+  position: relative;
+  width: 100%;
+}
+.stop-scroling {
+  height: 100%;
+  overflow: hidden;
+}
+.modal__title {
+  letter-spacing: 0.05em;
+  font-size: 2rem;
+  font-weight: normal;
+  margin: 0;
+}
+.modal__button_close {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0 2rem  0 0.8rem;
+  background-color: inherit;
+  font-weight: 600;
+  font-size: 2rem;
+  background: url("cross.svg") no-repeat center;
+  padding: 2rem;
+}
+.modal__button_close:hover {
+  background-color: var(--gray);
+}
+
+.modal__slider {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.modal__slides {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.modal__session {
+  flex: 0 0 100%; /* Ширина каждой сессии равна ширине контейнера */
+  
+  box-sizing: border-box;
+  text-align: center;
+  background-color:var(--background);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+.modal__date_and_time, .modal__seats, .modal__free_seats{
+  align-self: center;
+  font-size: 1.6rem;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.modal__date_and_time {
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+}
+.modal__status {
+  display: none;
+}
+.modal__session div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 0 1rem 0;
+  gap: 1rem;
+}
+
+.modal__people-count {
+  background-color: inherit;
+  padding: 0.5rem;
+  width: auto;
+  border-radius: 1rem;
+  border: var(--text) 0.1rem solid;
+  font-size: 1.6rem;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;  
+  width: 5rem;
+}
+.modal__people-count:focus,  .modal__people-count:hover{
+  background-color: var(--gray);
+}
+
+.modal__book-button {
+  margin:  0 auto;
+}
+.modal__prev,
+.modal__next {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-40%);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.modal__prev {
+  left: 10px;
+  background: url("next.svg") no-repeat center;
+  transform: rotate(180deg);
+}
+
+.modal__next {
+  right: 10px;
+  background: url("next.svg") no-repeat center;
+}
+.modal__prev:hover,
+.modal__next:hover {
+  background-color: none;
+}
+
+.modal__status {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+}

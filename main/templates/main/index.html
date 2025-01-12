@@ -1,0 +1,62 @@
+<!-- {%load static%} -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/main/css/main.css?v=6.0" />
+    <link rel="stylesheet" href="../../static/main/css/main_tablet.css?v=4.0" />
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <section class="wrapper">
+        <div class="wrapper__container container">
+          <div class="container__search search">
+            <form action="#" class="search__form">
+              <input type="text" class="search__input" placeholder="Поиск" />
+            </form>
+            <svg
+              width="22"
+              height="21"
+              viewBox="0 0 22 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="search__svg"
+            >
+              <path
+                d="M21.6151 18.9147L16.3578 13.8371C17.71 12.3472 18.4512 10.4613 18.4502 8.51282C18.4502 3.94617 14.4493 0.230774 9.53173 0.230774C4.61418 0.230774 0.613281 3.94617 0.613281 8.51282C0.613281 13.0795 4.61418 16.7949 9.53173 16.7949C11.3779 16.7949 13.1371 16.2778 14.6412 15.2962L19.9384 20.4123C20.1598 20.6258 20.4576 20.7436 20.7767 20.7436C21.0788 20.7436 21.3654 20.6366 21.5829 20.4422C21.8049 20.2434 21.933 19.971 21.939 19.6846C21.9451 19.3983 21.8286 19.1214 21.6151 18.9147ZM9.53173 2.39131C13.1666 2.39131 16.1236 5.13734 16.1236 8.51282C16.1236 11.8883 13.1666 14.6343 9.53173 14.6343C5.89688 14.6343 2.93983 11.8883 2.93983 8.51282C2.93983 5.13734 5.89688 2.39131 9.53173 2.39131Z"
+                fill="#333333"
+              />
+            </svg>
+          </div>
+          <div class="container__entry entry">
+            {% if user.is_authenticated %}
+            <span class="entry__username">{{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="POST">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="entry__button_of_entry button_of_entry"
+              >
+                Выйти
+              </button>
+            </form>
+            {% else %}
+            <a
+              class="entry__button_of_entry button_of_entry"
+              href="{% url 'users:register' %}"
+              >Войти</a
+            >
+            {% endif %}
+          </div>
+        </div>
+        <div class="wrapper__activity activity"></div>
+      </section>
+      <div class="modal"></div>
+    </main>
+    <footer></footer>
+    <script src="../../static/main/js/index.js?v=1.0.3"></script>
+  </body>
+</html>
