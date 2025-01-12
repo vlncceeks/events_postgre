@@ -97,7 +97,7 @@ DATABASES = {
 }
 
 DEBUG = config('DEBUG', default=False, cast=bool)
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='asdfgh12345')
 
 
 # Password validation
