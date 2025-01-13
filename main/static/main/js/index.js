@@ -15,12 +15,15 @@ async function getEvents(url) {
     }
 
     const respData = await response.json();
-    console.log(respData);
+    console.log(respData); 
     showEvent(respData);
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
 }
+
+
+
 
 // Функция для отображения всех событий
 function showEvent(data) {
