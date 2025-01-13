@@ -5,6 +5,19 @@ const modalWindow = document.querySelector(".modal");
 
 const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
 
+
+window.onscroll = function() {
+  toggleScrollButton();
+};
+function toggleScrollButton() {
+  let scrollToTopButton = document.getElementById("scrollToTop");
+  if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 200) {
+      scrollToTopButton.style.display = "block";
+  } else {
+      scrollToTopButton.style.display = "none";
+  }
+};
+
 // Функция для получения всех событий
 async function getEvents(url) {
   try {
