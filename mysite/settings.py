@@ -50,9 +50,12 @@ INSTALLED_APPS = [
     'images',
     'rest_framework',
     'users_registration',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Обязательно перед CommonMiddleware
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,3 +158,17 @@ REST_FRAMEWORK = {
     ],
     # другие настройки
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'https://eventspostgre-production.up.railway.app',
+    
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+]

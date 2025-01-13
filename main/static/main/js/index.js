@@ -3,7 +3,7 @@ const form = document.querySelector(".search__form");
 const search = document.querySelector(".search__input");
 const modalWindow = document.querySelector(".modal");
 
-const URL_API = "http://127.0.0.1:8000/api/events/";
+const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
 
 // Функция для получения всех событий
 async function getEvents(url) {
@@ -98,7 +98,7 @@ form.addEventListener("submit", (event) => {
 // Функция для поиска событий
 async function searchEvents() {
   if (search.value) {
-    const apiUrl = `http://127.0.0.1:8000/api/events/?search=${encodeURIComponent(
+    const apiUrl = `https://eventspostgre-production.up.railway.app/api/events/?search=${encodeURIComponent(
       search.value
     )}`;
 
@@ -139,8 +139,12 @@ function openModal(eventId) {
         .map(
           (session) => `
             <div class="modal__session">
-              <p class="modal__date_and_time">${new Date(session.date_time).toLocaleString()}</p>
-              <p class="modal__free_seats">Свободные места: ${session.available_seats}</p>
+              <p class="modal__date_and_time">${new Date(
+                session.date_time
+              ).toLocaleString()}</p>
+              <p class="modal__free_seats">Свободные места: ${
+                session.available_seats
+              }</p>
               <div class"modal__book_seats">
                 <p class="modal__seats">Необходимо мест: </p>
                 <input type="number" class="modal__people-count" min="1" max="${
