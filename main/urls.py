@@ -5,6 +5,7 @@ from .views import EventListAPIView
 from .views import register_event
 from .views import EventDetailAPIView
 from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', views.index),
