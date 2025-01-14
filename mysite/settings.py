@@ -16,7 +16,7 @@ from decouple import config
 import environ
 
 env = environ.Env()
-environ.End.read_env()
+environ.Env.read_env()
 
 DATABASE_URL = env('DATABASE_URL')
 
