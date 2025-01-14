@@ -21,3 +21,4 @@ contourpy==1.3.1
 cycler==0.12.1
 django-cors-headers
 django-filter
+django-environ==0.12.0
