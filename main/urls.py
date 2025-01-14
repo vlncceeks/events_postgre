@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 from .views import EventListAPIView
 from .views import register_event
 from .views import EventDetailAPIView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index),
