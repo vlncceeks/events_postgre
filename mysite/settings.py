@@ -15,13 +15,9 @@ from pathlib import Path
 from decouple import config
 import environ
 
-env = environ.Env()
-environ.Env.read_env()
-
-DATABASE_URL = env('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -96,7 +92,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
-        'default': env.db('DATABASE_URL')
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('PGDATABASE'),
+            'USER': config('PGUSER'),
+            'PASSWORD': config('PGPASSWORD'),
+            'HOST': config('PGHOST', default='localhost'),
+            'PORT': config('PGPORT', cast=int, default=5432),
+            'OPTIONS': {
+                'client_encoding': 'UTF8',  # Указываем кодировку
+            },
+        }
     }
 
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -145,7 +151,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_ROOT = BASE_DIR / 'images'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
 
 REST_FRAMEWORK = {
