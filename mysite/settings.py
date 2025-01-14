@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users_registration',
     'corsheaders',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -100,7 +101,7 @@ DATABASES = {
                 'client_encoding': 'UTF8',  # Указываем кодировку
             },
         }
-}
+    }
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config('SECRET_KEY', default='asdfgh12345')
@@ -155,6 +156,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     # другие настройки
 }
 
