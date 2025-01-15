@@ -3,9 +3,8 @@ const form = document.querySelector(".search__form");
 const search = document.querySelector(".search__input");
 const modalWindow = document.querySelector(".modal");
 
-const URL_API = "http://127.0.0.1:8000/api/events/";
+const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
 let allEvents = []; // Глобальный массив для хранения всех событий
-console.log("CSRF Token:", getCookie("csrftoken"));
 
 window.onscroll = function () {
   toggleScrollButton();
