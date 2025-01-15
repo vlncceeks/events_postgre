@@ -420,14 +420,13 @@ details p {
   width: 2rem;
   height: 2rem;
   border-radius: 0 2rem  0 0.8rem;
-  background-color: inherit;
+  background-color: var(--block);
   font-weight: 600;
   font-size: 2rem;
-  background: url("cross.svg") no-repeat center;
+  background-image: url("cross.svg");
+  background-size: cover;
   padding: 2rem;
-}
-.modal__button_close:hover {
-  background-color: var(--gray);
+  background-position: center;
 }
 
 .modal__slider {
