@@ -6,19 +6,18 @@ const modalWindow = document.querySelector(".modal");
 const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
 let allEvents = []; // Глобальный массив для хранения всех событий
 
-window.onscroll = function () {
-  toggleScrollButton();
-};
-function toggleScrollButton() {
-  let scrollToTopButton = document.getElementById("scrollToTop");
-  if (
-    document.body.scrollTop > 800 ||
-    document.documentElement.scrollTop > 200
-  ) {
-    scrollToTopButton.style.display = "block";
-  } else {
-    scrollToTopButton.style.display = "none";
-  }
+var scrollToTopBtn = document.getElementById("scrollToTop");
+
+    // Функция для показа или скрытия кнопки
+    window.onscroll = function() {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+scrollToTopBtn.onclick = function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Функция для получения всех событий

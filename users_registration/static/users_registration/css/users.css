@@ -1,16 +1,33 @@
 :root {
-  --text: #333333;
+  --text: #272727;
   --accent: #6fcf97;
   --background: #f8f9fa;
   --gray: #e6e7e8;
   --accent-hover: #9dd6c2;
   --accent-active: #27a369;
   font-size: 62.5%;
+  --block: #fff;
+  --light-box-shadow: 0 0 3px rgba(0, 0, 0, 0.342);
+  --header-box-shadow: 3px 0 3px rgba(0, 0, 0, 0.342);
+  --grey: #808080;
+  --brLight: 9px;
+  --brSemi: 19px;
+  --brBold: 30px;
+  --strong-shadow: 0 0 50px #000;
+  --very-mild-shadow: 0 0 32px rgb(0 0 0 / 8%);
+  --desktop-page-padding: 40px;
+  --mobile-page-padding: 5px;
+  --header-height: 55px;
+  --mobile-bottom-menu-height: 60px;
+  --theme: #fff;
+  --block-content-shadow: 0 0 1px #3b3b3bab;
+  --ck-custom-background: hsl(270, 1%, 29%);
+
 }
 * {
   box-sizing: border-box;
   margin: 0 auto;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 *::selection {
   background-color: var(--accent);
@@ -30,18 +47,19 @@ main {
 .registration__wrapper {
   display: flex;
   flex-direction: column;
-  margin: auto 2rem;
+  margin: auto 0;
+  padding: 2rem;
   max-width: 45rem;
   width: 100%;
-  gap: 3rem;
+  gap: 2rem;
 }
 .registration__title {
   margin: 0 auto;
-  letter-spacing: 0.05em;
-  font-size: 3.6rem;
+  font-size: 2.4rem;
   color: var(--text);
 }
 .registration__form {
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -50,23 +68,28 @@ main {
 .input {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   width: 100%;
   margin: 0;
+  border: 0;
+  box-shadow: var(--very-mild-shadow);
 }
 .input__login, .input__password, .input__email {
   width: 100%;
-  font-size: 2.4rem;
+  font-size: 1.4rem;
   color: var(--text);
-  padding: 1.7rem 2.5rem;
-  border: 0.1rem solid var(--text);
-  border-radius: 2rem;
+  padding: 1rem;
+  border: 0;
+  border-radius: 1rem;
   margin: 0;
+  box-shadow: var(--very-mild-shadow);
+  
 }
 .input__login:focus,
 .input__password:focus {
-  box-shadow: 0rem 0rem 1rem rgba(111, 207, 151, 0.3);
   outline: none;
+  border: 0.1rem solid var(--text);
+  box-shadow: none;
 }
 .input__login::placeholder,
 .input__password::placeholder {
@@ -75,13 +98,15 @@ main {
 .registraion__create_acc {
   display: block;
   margin: 1.5rem auto 0 auto;
-  font-size: 2.8rem;
-  padding: 1.3rem 3rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 1rem;
   color: var(--text);
   background-color: var(--accent);
   border: 0;
   border-radius: 1rem;
   transition: 0.3s;
+  box-shadow: var(--very-mild-shadow);
 }
 .entry {
   display: flex;
@@ -90,18 +115,18 @@ main {
 }
 .entry__text {
   margin: 0;
-  font-size: 2.8rem;
+  font-size: 1.6rem;
   color: var(--text);
   align-self: center;
 }
 .entry__button {
   margin: 0;
-  font-size: 2.8rem;
+  font-size: 1.8rem;
   background-color: transparent;
   color: var(--text);
   border: 0;
   border-radius: 1rem;
-  padding: 1rem 2rem;
+  padding: 1rem;
   transition: 0.3s;
 
 }
@@ -109,6 +134,7 @@ main {
 .registraion__create_acc:hover {
   background-color: var(--accent-hover);
   text-decoration: none;
+  box-shadow: var(--very-mild-shadow);
 }
 .entry__button:active,
 .registraion__create_acc:active {

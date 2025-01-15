@@ -22,6 +22,7 @@
   --theme: #fff;
   --block-content-shadow: 0 0 1px #3b3b3bab;
   --ck-custom-background: hsl(270, 1%, 29%);
+
 }
 * {
   margin: 0px;
@@ -42,15 +43,67 @@ main {
   margin: 0;
   width: 100%;
 }
+.cdbANo {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: linear-gradient(119deg, var(--accent), var(--accent-hover));
+  z-index: -1;
+  overflow: hidden;
+}
+.cdbANo svg {
+  position: absolute;
+  opacity: 0.05;
+  z-index: 0;
+}
+.cdbANo svg:nth-child(1) {
+  transform: scale(4) rotate(287deg) translate(390px, 190px);
+}
+.cdbANo svg:nth-child(2) {
+  transform: scale(2) rotate(15deg) translate(522px, -410px);
+}
+.cdbANo svg:nth-child(3) {
+  transform: scale(3) rotate(30deg) translate(75.9px, 179px);
+}
+.cdbANo svg:nth-child(4) {
+  transform: scale(2) rotate(60deg) translate(75.9px, 159px);
+}
+.cdbANo .circle {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border-radius: 100%;
+  z-index: 1;
+  background: linear-gradient(283deg, var(--accent), var(--accent-hover));
+}
+.cdbANo .circle.c2 {
+  transform: translate(814px, 110px) scale(1.4);
+}
+.cdbANo .circle.c3 {
+  transform: translate(203px, -70px) scale(3);
+}
+.cdbANo .circle.c4 {
+  transform: translate(353px, 3px) scale(1);
+  z-index: -1;
+}
+.cdbANo .circle.c5 {
+  transform: translate(1236px, 10px) scale(0.8);
+}
+
 .wrapper {
   margin: 0 auto;
-  padding: 3rem 1rem;
+  padding: 17rem 1rem;
   width: 100%;
   max-width: 75rem;
 }
 @media (min-width: 550px) {
+  .container {
+    margin: 5rem 0;
+  }
   .wrapper {
-    padding: 5rem 3rem;
+    padding: 17rem 3rem;
   }
 }
 
@@ -67,7 +120,7 @@ main {
 ::-webkit-scrollbar-thumb {
   background-color: #555; /* Цвет самой полосы */
   border-radius: 10px;
-  border: var(--block) 4px solid;
+  border: var(--block) 4px solid; 
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -88,16 +141,21 @@ main {
 }
 
 #scrollToTop:hover {
-  background-color: var(--accent-hover); /* Изменение цвета при наведении */
+  background-color: var(--accent-hover);/* Изменение цвета при наведении */
 }
 
 .container {
   display: flex;
   gap: 2rem;
-  margin: 0 0 3rem 0;
+  margin: 0rem 0 3rem 0;
   position: relative;
   flex-direction: column;
   gap: 1.2rem;
+}
+@media (min-width: 550px) {
+  .wrapper {
+    padding: 17rem 3rem;
+  }
 }
 .search {
   background-color: var(--block);
@@ -120,8 +178,10 @@ main {
   letter-spacing: 0.05em;
   color: var(--text);
   padding: 0;
-  min-width: 10rem;
+  min-width: 20rem;
   width: 100%;
+  border: 0;
+  font-size: 1.4rem;
 }
 .search__input::placeholder {
   font-size: 1.4rem;
@@ -129,6 +189,7 @@ main {
   text-align: left;
   overflow-wrap: normal;
   color: var(--text);
+  border: 0;
 }
 .search__form {
   display: inline-block;
@@ -137,6 +198,7 @@ main {
   border: 0;
 }
 .search__input:focus {
+  outline: 0;
   border: 0;
 }
 .search__input::placeholder:focus {
@@ -145,11 +207,15 @@ main {
 .search__svg {
   width: 1.6rem;
   height: 1.6rem;
+  margin: auto 0; 
 }
 .container__entry_events {
   display: flex;
   justify-content: space-between;
   z-index: 1;
+}
+.dashboard_logo {
+  display: none;
 }
 .entry__events {
   font-weight: 600;
@@ -175,9 +241,7 @@ main {
 }
 .button_of_entry,
 .sign_button,
-.modal__button_close,
-.modal__book-button,
-#scrollToTop {
+.modal__button_close, .modal__book-button, #scrollToTop {
   background-color: var(--accent);
   border: 0;
   border-radius: 1rem;
@@ -196,14 +260,12 @@ main {
 
 .button_of_entry:hover,
 .sign_button:hover,
-.modal__button_close:hover,
-.modal__book-button:hover {
+.modal__button_close:hover, .modal__book-button:hover {
   background-color: var(--accent-hover);
 }
 .button_of_entry:active,
 .sign_button:active,
-.modal__button_close:active,
-.modal__book-button:active {
+.modal__button_close:active, .modal__book-button:active {
   background-color: var(--accent-active);
   color: var(--gray);
 }
@@ -307,7 +369,6 @@ details p {
   padding: 1.1rem 1.3rem;
   align-self: center;
 }
-
 /* -----------------------модальное окно------------------------- */
 .modal {
   display: none;
@@ -358,7 +419,7 @@ details p {
   right: 0rem;
   width: 2rem;
   height: 2rem;
-  border-radius: 0 2rem 0 0.8rem;
+  border-radius: 0 2rem  0 0.8rem;
   background-color: inherit;
   font-weight: 600;
   font-size: 2rem;
@@ -382,18 +443,16 @@ details p {
 
 .modal__session {
   flex: 0 0 100%; /* Ширина каждой сессии равна ширине контейнера */
-
+  
   box-sizing: border-box;
   text-align: center;
-  background-color: var(--background);
+  background-color:var(--background);
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
 }
-.modal__date_and_time,
-.modal__seats,
-.modal__free_seats {
+.modal__date_and_time, .modal__seats, .modal__free_seats{
   align-self: center;
   font-size: 1.6rem;
   font-family: "Montserrat", sans-serif;
@@ -423,16 +482,15 @@ details p {
   border-radius: 1rem;
   border: var(--text) 0.1rem solid;
   font-size: 1.6rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif; 
   width: 5rem;
 }
-.modal__people-count:focus,
-.modal__people-count:hover {
+.modal__people-count:focus,  .modal__people-count:hover{
   background-color: var(--gray);
 }
 
 .modal__book-button {
-  margin: 0 auto;
+  margin:  0 auto;
 }
 .modal__prev,
 .modal__next {
@@ -465,4 +523,40 @@ details p {
   margin-top: 20px;
   font-size: 16px;
   text-align: center;
+}
+footer {
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: var(--very-mild-shadow);
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: fit-content;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
+.footer__image {
+  background-image: url(logo_text.png);
+  width: 20rem;
+  height: 5.4rem;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) brightness(0) contrast(1);
+}
+.footer__creators {
+  display: none;
+}
+@media (min-width: 355px) {
+  .footer__creators {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    gap: 1rem;
+    flex-direction: column;
+    margin: 0;
+    max-width: fit-content;
+  }
 }

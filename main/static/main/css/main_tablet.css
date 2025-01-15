@@ -1,94 +1,155 @@
-@media (min-width: 1100px) {
-  .wrapper {
-    margin: 6rem auto;
-    padding: 0 3rem;
-    max-width: 120rem;
+:root {
+    --text: #272727;
+    --accent: #6fcf97;
+    --background: #f8f9fa;
+    --gray: #e6e7e8;
+    --accent-hover: #9dd6c2;
+    --accent-active: #27a369;
+    font-size: 62.5%;
+    --block: #fff;
+    --light-box-shadow: 0 0 3px rgba(0, 0, 0, 0.342);
+    --header-box-shadow: 3px 0 3px rgba(0, 0, 0, 0.342);
+    --grey: #808080;
+    --brLight: 9px;
+    --brSemi: 19px;
+    --brBold: 30px;
+    --strong-shadow: 0 0 50px #000;
+    --very-mild-shadow: 0 0 32px rgb(0 0 0 / 8%);
+    --desktop-page-padding: 40px;
+    --mobile-page-padding: 5px;
+    --header-height: 55px;
+    --mobile-bottom-menu-height: 60px;
+    --theme: #fff;
+    --block-content-shadow: 0 0 1px #3b3b3bab;
+    --ck-custom-background: hsl(270, 1%, 29%);
+  
   }
-  .container {
-    gap: 4rem;
-    justify-content: flex-end;
-    margin: 0 0 4.5rem 0;
-  }
-  .search {
-    position: absolute;
-    right: 50%;
-    transform: translateX(50%);
-  }
-  .search__input::placeholder {
-    font-size: 1.8rem;
-  }
-  .search__form {
-    display: flex;
-    justify-content: center;
-  }
-  .search__svg {
-  }
-  .entry__events {
-    font-size: 2.4rem;
-  }
-  .entry__username {
-    font-size: 2rem;
-  }
-  .button_of_entry,
-  .sign_button,
-  .modal__book-button {
-    font-size: 2rem;
-    min-height: 5rem;
-  }
-  .modal__button_close {
-    font-size: 2rem;
-  }
-  .sign_button {
-  }
-  .activity {
-    margin: 4.5rem auto;
-    gap: 3rem;
-  }
-  .event__container_image {
-    height: 40rem;
-  }
-  .content {
-    padding: 3rem;
-  }
-  details summary {
-    margin: 0 3.2rem 3rem 0;
-  }
-  summary::after {
-    width: 3.2rem;
-    height: 1.7rem;
-  }
-  details[open] > summary::after {
-    width: 3.2rem;
-    height: 1.7rem;
-  }
-  summary {
-    font-size: 2.4rem;
-  }
-  details p {
-    margin: 1.5rem 0;
-    font-size: 1.6rem;
-    line-height: 2.2rem;
-  }
-  .content__authors,
-  .content__date_and_time,
-  .content__numbers_of_seats,
-  #scrollToTop {
-    margin: 1.5rem 0 0 0;
-    color: var(--text);
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    font-size: 1.8rem;
-  }
-  .modal__date_and_time,
-  .modal__seats,
-  .modal__free_seats {
-    font-size: 2rem;
-  }
-  .modal__date_and_time {
-    font-size: 2.4rem;
-  }
-}
-@media (min-width: 1250px) {
-  .search {
-    max-width: 55rem;
-  }
+@media (min-width: 1100px){
+    .wrapper {
+        margin: 0 auto;
+        padding: 17rem 3rem 3rem 28rem;
+        max-width: none;
+    }
+    .container {
+        gap: 4rem;
+        justify-content: flex-end;
+        margin: 0rem 0 2rem 0;
+    }
+    .search__input {
+        font-size: 1.8rem;
+        min-width: 64rem;
+    }  
+    .search__input::placeholder {
+        font-size: 1.8rem;
+    }
+    .search__form {
+        display: flex;
+        justify-content: center;
+    }
+    .search__svg {
+    }
+    .container__entry_events {
+        flex-direction: column;
+        justify-content: center;
+        align-self: self-start;
+        gap: 2rem;
+        box-shadow: var(--very-mild-shadow);
+        height: 100vh;
+        position: fixed;
+        width: 25rem;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        background-color: var(--block);
+        padding: 2rem 1rem;
+        border-radius: 0 1rem 1rem 0;
+    }
+    .dashboard_logo {
+        display: block;
+        height: 4.319rem;
+        width: 16rem;
+        position: absolute;
+        top: 2rem;
+        left: 4rem;
+        background-image: url(logo_text.png);
+        background-position: center;
+        background-size: cover;
+        filter: grayscale(1) brightness(0) contrast(1);
+    }
+    .entry__events {
+        font-size: 2.4rem;
+    }
+    .entry__username {
+        font-size: 2rem;
+    }
+    .container__entry {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 10rem;
+        margin: 0 auto;
+    }
+    .button_of_entry {
+        justify-self: center;
+    }
+    .button_of_entry,
+    .sign_button, .modal__book-button {
+        font-size: 2rem;
+        min-height: 5rem;
+    }
+    .modal__button_close {
+        font-size: 2rem;
+    }
+    .sign_button {
+    }
+    .activity {
+        margin: 2rem auto;
+        gap: 1rem;
+        max-width: 70rem;
+    }
+    .event__container_image {
+        height: 40rem;
+    }
+    .content {
+        padding: 3rem;
+    }
+    details summary {
+        margin: 0 3.2rem 3rem 0;
+    }
+    summary::after {
+        width: 3.2rem;
+        height: 1.7rem;
+    }
+    details[open] > summary::after {
+        width: 3.2rem;
+        height: 1.7rem;
+      }
+    summary {
+        font-size: 2.4rem;
+    }
+    details p {
+        margin: 1.5rem 0;
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+    }
+    .content__authors,
+    .content__date_and_time,
+    .content__numbers_of_seats, #scrollToTop  {
+        margin: 1.5rem 0 0 0;
+        color: var(--text);
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 1.8rem;
+    }
+    .modal__date_and_time, .modal__seats, .modal__free_seats {
+        font-size: 2rem;
+    }
+    .modal__date_and_time {
+        font-size: 2.4rem;
+    }
+    footer {
+        padding: 3rem 3rem 2rem 28rem;
+    }
+    .footer__creators {
+        font-size: 1.5rem;
+    }
 }
