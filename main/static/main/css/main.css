@@ -418,7 +418,8 @@ details p {
   right: 0rem;
   background-color: var(--background);
   font-size: 2rem;
-  padding: 2rem;
+  padding: 1rem 1.2rem;
+  box-shadow: none;
 }
 .modal__button_close:hover{
   background-color: var(--background);
