@@ -527,7 +527,7 @@ footer {
   border-radius: 2rem 2rem 0 0;
   box-shadow: var(--very-mild-shadow);
   bottom: 0;
-  width: 100vw;
+  width: 100%;
   height: fit-content;
   padding: 2rem;
   display: flex;
