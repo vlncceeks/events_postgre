@@ -30,18 +30,19 @@ async function getEvents(url, page = 1) {
 
   try {
     const response = await fetch(`${url}?page=${page}`);
-
     if (!response.ok) {
       throw new Error(`Ошибка HTTP: ${response.status}`);
     }
 
     const respData = await response.json();
-
     if (respData.results.length === 0) {
       hasMoreEvents = false; // Если больше данных нет, отключаем кнопку
       loadMoreButton.style.display = "none"; // Скрываем кнопку
       return;
     }
+
+    // Добавляем новые события в массив allEvents
+    allEvents = [...allEvents, ...respData.results];
 
     showEvent(respData.results); // Отображаем текущую порцию событий
     currentPage++; // Увеличиваем номер текущей страницы
@@ -85,14 +86,6 @@ function showEvent(data) {
     signButton.addEventListener("click", async (e) => {
       const eventId = e.target.getAttribute("data-event-id");
       openModal(eventId);
-      const btn_close = document.querySelector(".modal__button_close");
-      btn_close.addEventListener("click", closeModal);
-      const displayClose = document.querySelector(".modal--show");
-      displayClose.addEventListener("click", (e) => {
-        if (e.target.className == "modal modal--show") {
-          closeModal();
-        }
-      });
     });
 
     wrapper.appendChild(eventElement);
@@ -140,28 +133,22 @@ async function searchEvents() {
       }
 
       const data = await response.json();
-      showSearchEvents(data);
+      wrapper.innerHTML = ""; // Очистить текущие события
+      showEvent(data.results); // Отобразить новые события
     } catch (error) {
       console.error("Ошибка при получении данных:", error);
     }
   }
 }
 
-function showSearchEvents(data) {
-  wrapper.innerHTML = ""; // Очистить текущие события
-  showEvent(data); // Отобразить новые события
-}
-
 // -------------------модалка--------------
 function openModal(eventId) {
+  modalWindow.innerHTML = ""; // Очистить старое содержимое
   modalWindow.classList.add("modal--show");
   modalWindow.setAttribute("data-event-id", eventId);
-
   document.body.classList.add("stop-scroling");
 
-  // Находим событие по ID из локального массива
   const event = allEvents.find((e) => e.id === parseInt(eventId));
-
   if (!event) {
     console.error("Событие не найдено");
     return;
@@ -186,7 +173,7 @@ function openModal(eventId) {
           <p class="modal__free_seats">Свободные места: ${
             session.available_seats
           }</p>
-          <div class"modal__book_seats">
+          <div class="modal__book_seats">
             <p class="modal__seats">Необходимо мест: </p>
             <input type="number" class="modal__people-count" min="1" max="${
               session.available_seats
@@ -216,8 +203,6 @@ function openModal(eventId) {
   `;
 
   const statusMessage = document.querySelector(".modal__status");
-
-  // Логика фильтрации по дате
   const filterInput = document.querySelector("#filter-date");
   filterInput.addEventListener("input", () => {
     const selectedDate = new Date(filterInput.value)
@@ -227,15 +212,17 @@ function openModal(eventId) {
       const sessionDate = new Date(sessionElement.dataset.date)
         .toISOString()
         .split("T")[0];
-      if (sessionDate === selectedDate || filterInput.value === "") {
-        sessionElement.style.display = "block";
-      } else {
-        sessionElement.style.display = "none";
-      }
+      sessionElement.style.display =
+        sessionDate === selectedDate || !filterInput.value ? "block" : "none";
     });
   });
 
-  // Логика слайдера
+  setupSlider();
+  setupBookButtons(statusMessage);
+  setupCloseModal();
+}
+
+function setupSlider() {
   const slidesContainer = document.querySelector(".modal__slides");
   const slideElements = document.querySelectorAll(".modal__session");
   const prevButton = document.querySelector(".modal__prev");
@@ -260,11 +247,12 @@ function openModal(eventId) {
       updateSlider();
     }
   });
+}
 
+function setupBookButtons(statusMessage) {
   document.querySelectorAll(".modal__book-button").forEach((button) => {
     button.addEventListener("click", (e) => {
       const sessionId = e.target.getAttribute("data-session-id");
-
       const peopleCountInput = e.target.previousElementSibling.querySelector(
         ".modal__people-count"
       );
@@ -278,9 +266,17 @@ function openModal(eventId) {
       }
     });
   });
+}
 
+function setupCloseModal() {
   const closeButton = document.querySelector(".modal__button_close");
   closeButton.addEventListener("click", closeModal);
+
+  modalWindow.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal--show")) {
+      closeModal();
+    }
+  });
 }
 
 function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
@@ -299,54 +295,30 @@ function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
       if (!response.ok) {
         if (response.status === 401) {
           alert(
-            "Вы не авторизованы. Пожалуйста, войдите в систему, чтобы зарегистрироваться на мероприятие."
+            "Вы не авторизованы. Войдите в систему, чтобы зарегистрироваться."
           );
-          throw new Error(
-            "Вы не авторизованы. Пожалуйста, войдите в систему, чтобы зарегистрироваться на мероприятие."
-          );
+          throw new Error("Вы не авторизованы.");
         } else if (response.status === 400) {
-          alert(
-            "Указано некорректное количество мест. Проверьте данные и повторите попытку."
-          );
-          throw new Error(
-            "Указано некорректное количество мест. Проверьте данные и повторите попытку."
-          );
+          alert("Указано некорректное количество мест.");
+          throw new Error("Некорректное количество мест.");
         } else if (response.status === 409) {
-          alert(
-            "Вы уже зарегистрированы на это мероприятие. Проверьте ваши записи."
-          );
-          throw new Error(
-            "Вы уже зарегистрированы на это мероприятие. Проверьте ваши записи."
-          );
+          alert("Вы уже зарегистрированы на это мероприятие.");
+          throw new Error("Уже зарегистрированы.");
         } else if (response.status === 410) {
-          alert(
-            "К сожалению, все места уже заняты. Попробуйте выбрать другое мероприятие."
-          );
-          throw new Error(
-            "К сожалению, все места уже заняты. Попробуйте выбрать другое мероприятие."
-          );
+          alert("Все места уже заняты.");
+          throw new Error("Места заняты.");
         } else {
-          alert("Произошла ошибка при бронировании. Попробуйте снова.");
-          throw new Error(
-            "Произошла ошибка при бронировании. Попробуйте снова."
-          );
+          alert("Ошибка бронирования. Попробуйте снова.");
+          throw new Error("Ошибка бронирования.");
         }
       }
       return response.json();
     })
     .then((data) => {
-      if (data.success) {
-        alert("Вы успешно зарегистрировались");
-        statusMessage.textContent = data.message;
-        statusMessage.style.color = "green";
-      } else {
-        statusMessage.textContent = data.error;
-        statusMessage.style.color = "red";
-      }
+      statusMessage.textContent = data.message || "Успешно забронировано!";
+      console.log("Бронирование успешно выполнено:", data);
     })
     .catch((error) => {
-      statusMessage.textContent = error.message; // Отображаем текст ошибки в модальном окне
-      statusMessage.style.color = "red";
       console.error("Ошибка бронирования:", error);
     });
 }
@@ -356,5 +328,5 @@ function closeModal() {
   document.body.classList.remove("stop-scroling");
 }
 
-// Получить все события при загрузке страницы
-getEvents(URL_API);
+// Запуск основного получения событий
+getEvents(URL_API, currentPage);
