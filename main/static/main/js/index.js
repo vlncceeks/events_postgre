@@ -4,19 +4,22 @@ const search = document.querySelector(".search__input");
 const modalWindow = document.querySelector(".modal");
 
 const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
+let allEvents = []; // Глобальный массив для хранения всех событий
 
-
-window.onscroll = function() {
+window.onscroll = function () {
   toggleScrollButton();
 };
 function toggleScrollButton() {
   let scrollToTopButton = document.getElementById("scrollToTop");
-  if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 200) {
-      scrollToTopButton.style.display = "block";
+  if (
+    document.body.scrollTop > 800 ||
+    document.documentElement.scrollTop > 200
+  ) {
+    scrollToTopButton.style.display = "block";
   } else {
-      scrollToTopButton.style.display = "none";
+    scrollToTopButton.style.display = "none";
   }
-};
+}
 
 // Функция для получения всех событий
 async function getEvents(url) {
@@ -28,15 +31,13 @@ async function getEvents(url) {
     }
 
     const respData = await response.json();
-    console.log(respData); 
+    console.log(respData);
+    allEvents = respData; // Сохраняем все события
     showEvent(respData);
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
 }
-
-
-
 
 // Функция для отображения всех событий
 function showEvent(data) {
@@ -143,104 +144,96 @@ function openModal(eventId) {
   modalWindow.classList.add("modal--show");
   document.body.classList.add("stop-scroling");
 
-  fetch(`${URL_API}${eventId}/`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Ошибка HTTP: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const sessions = data.sessions
-        .map(
-          (session) => `
-            <div class="modal__session">
-              <p class="modal__date_and_time">${new Date(
-                session.date_time
-              ).toLocaleString()}</p>
-              <p class="modal__free_seats">Свободные места: ${
-                session.available_seats
-              }</p>
-              <div class"modal__book_seats">
-                <p class="modal__seats">Необходимо мест: </p>
-                <input type="number" class="modal__people-count" min="1" max="${
-                  session.available_seats
-                }" value="1">
-              </div>
-              <button class="modal__book-button" data-session-id="${
-                session.id
-              }">Бронь</button>
-            </div>
-          `
-        )
-        .join("");
+  // Находим событие по ID из локального массива
+  const event = allEvents.find((e) => e.id === parseInt(eventId));
 
-      modalWindow.innerHTML = `
-        <div class="modal__card">
-          <div class="modal__slider">
-            <div class="modal__slides">
-              ${sessions}
-            </div>
+  if (!event) {
+    console.error("Событие не найдено");
+    return;
+  }
+
+  const sessions = event.event_sessions
+    .map(
+      (session) => `
+        <div class="modal__session">
+          <p class="modal__date_and_time">${new Date(
+            session.date_time
+          ).toLocaleString()}</p>
+          <p class="modal__free_seats">Свободные места: ${
+            session.available_seats
+          }</p>
+          <div class"modal__book_seats">
+            <p class="modal__seats">Необходимо мест: </p>
+            <input type="number" class="modal__people-count" min="1" max="${
+              session.available_seats
+            }" value="1">
           </div>
-          <button class="modal__prev"></button>
-          <button class="modal__next"></button>
-          <button class="modal__button_close"></button>
-          <p class="modal__status"></p>
+          <button class="modal__book-button" data-session-id="${
+            session.id
+          }">Бронь</button>
         </div>
-      `;
+      `
+    )
+    .join("");
 
-      const statusMessage = document.querySelector(".modal__status");
+  modalWindow.innerHTML = `
+    <div class="modal__card">
+      <div class="modal__slider">
+        <div class="modal__slides">
+          ${sessions}
+        </div>
+      </div>
+      <button class="modal__prev"></button>
+      <button class="modal__next"></button>
+      <button class="modal__button_close"></button>
+      <p class="modal__status"></p>
+    </div>
+  `;
 
-      // Переменные для слайдера
-      const slidesContainer = document.querySelector(".modal__slides");
-      const slideElements = document.querySelectorAll(".modal__session");
-      const prevButton = document.querySelector(".modal__prev");
-      const nextButton = document.querySelector(".modal__next");
+  const statusMessage = document.querySelector(".modal__status");
 
-      let currentSlide = 0;
+  // Логика слайдера (без изменений)
+  const slidesContainer = document.querySelector(".modal__slides");
+  const slideElements = document.querySelectorAll(".modal__session");
+  const prevButton = document.querySelector(".modal__prev");
+  const nextButton = document.querySelector(".modal__next");
 
-      // Функция для обновления состояния слайдера
-      function updateSlider() {
-        slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+  let currentSlide = 0;
+
+  function updateSlider() {
+    slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
+
+  prevButton.addEventListener("click", () => {
+    if (currentSlide > 0) {
+      currentSlide -= 1;
+      updateSlider();
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentSlide < slideElements.length - 1) {
+      currentSlide += 1;
+      updateSlider();
+    }
+  });
+
+  document.querySelectorAll(".modal__book-button").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const sessionId = e.target.getAttribute("data-session-id");
+      const peopleCountInput = e.target.previousElementSibling; // Поле с количеством людей
+      const numberOfPeople = parseInt(peopleCountInput.value, 10);
+
+      if (numberOfPeople > 0) {
+        bookSession(sessionId, numberOfPeople, statusMessage);
+      } else {
+        alert("Укажите корректное количество участников!");
       }
-
-      // Установка обработчиков для переключения слайдов
-      prevButton.addEventListener("click", () => {
-        if (currentSlide > 0) {
-          currentSlide -= 1;
-          updateSlider();
-        }
-      });
-
-      nextButton.addEventListener("click", () => {
-        if (currentSlide < slideElements.length - 1) {
-          currentSlide += 1;
-          updateSlider();
-        }
-      });
-
-      // Кнопки бронирования
-      document.querySelectorAll(".modal__book-button").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          const sessionId = e.target.getAttribute("data-session-id");
-          const peopleCountInput = e.target.previousElementSibling; // Поле с количеством людей
-          const numberOfPeople = parseInt(peopleCountInput.value, 10);
-
-          if (numberOfPeople > 0) {
-            bookSession(sessionId, numberOfPeople, statusMessage);
-          } else {
-            alert("Укажите корректное количество участников!");
-          }
-        });
-      });
-
-      // Обработчик для кнопки закрытия
-      const closeButton = document.querySelector(".modal__button_close");
-      closeButton.addEventListener("click", closeModal);
-    })
-    .catch((error) => {
-      console.error("Ошибка при загрузке модального окна:", error);
     });
+  });
+
+  const closeButton = document.querySelector(".modal__button_close");
+  closeButton.addEventListener("click", closeModal);
 }
 
 function bookSession(sessionId, numberOfPeople, statusMessage) {

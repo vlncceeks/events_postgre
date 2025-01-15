@@ -8,6 +8,8 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from .models import EventParticipant, Event
+from .models import Session  
+from .serializers import SessionSerializer  
 
 
 from rest_framework.generics import ListAPIView
@@ -26,6 +28,8 @@ from rest_framework.generics import RetrieveAPIView
 import logging
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class EventListView(ListAPIView):
     queryset = Event.objects.all()
@@ -95,6 +99,9 @@ logger = logging.getLogger(__name__)
 @csrf_exempt
 @api_view(['POST'])
 def register_event(request, session_id):
+    """
+    Регистрация пользователя на мероприятие (сессию).
+    """
     if request.method == 'POST':
         data = request.data
         try:
@@ -102,21 +109,23 @@ def register_event(request, session_id):
         except ValueError:
             return Response({"error": "'number_of_people' должно быть числом."}, status=400)
 
-        # Получаем сессию
+        # Получаем EventSession
         session = get_object_or_404(EventSession, id=session_id)
 
-        # Проверка, забронировано ли уже пользователем это мероприятие
+        # Проверка: забронировано ли уже пользователем это мероприятие
         if EventParticipant.objects.filter(user=request.user, session=session).exists():
             return Response({"error": "Вы уже зарегистрированы на это мероприятие."}, status=400)
 
+        # Проверяем доступность мест
         if session.available_seats < number_of_people:
             return Response({"error": "Недостаточно мест."}, status=400)
 
-        # Обновляем количество мест
+        # Обновляем количество доступных мест
         session.available_seats -= number_of_people
         session.save()
 
-        # Бронирование
+
+# Создаём запись о регистрации
         EventParticipant.objects.create(
             user=request.user,
             session=session,
@@ -126,11 +135,16 @@ def register_event(request, session_id):
         return Response({"success": True, "message": "Успешно забронировано!"}, status=200)
 
 
-
-
-
-
-
 class EventDetailAPIView(RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+class SessionListAPIView(ListAPIView):
+    """
+    API для получения списка всех сессий.
+    """
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer  # Используйте SessionSerializer здесь
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['date_time']  # Фильтрация по дате

@@ -22,7 +22,6 @@
   --theme: #fff;
   --block-content-shadow: 0 0 1px #3b3b3bab;
   --ck-custom-background: hsl(270, 1%, 29%);
-
 }
 * {
   margin: 0px;
@@ -68,7 +67,7 @@ main {
 ::-webkit-scrollbar-thumb {
   background-color: #555; /* Цвет самой полосы */
   border-radius: 10px;
-  border: var(--block) 4px solid; 
+  border: var(--block) 4px solid;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -89,7 +88,7 @@ main {
 }
 
 #scrollToTop:hover {
-  background-color: var(--accent-hover);/* Изменение цвета при наведении */
+  background-color: var(--accent-hover); /* Изменение цвета при наведении */
 }
 
 .container {
@@ -176,7 +175,9 @@ main {
 }
 .button_of_entry,
 .sign_button,
-.modal__button_close, .modal__book-button, #scrollToTop {
+.modal__button_close,
+.modal__book-button,
+#scrollToTop {
   background-color: var(--accent);
   border: 0;
   border-radius: 1rem;
@@ -195,12 +196,14 @@ main {
 
 .button_of_entry:hover,
 .sign_button:hover,
-.modal__button_close:hover, .modal__book-button:hover {
+.modal__button_close:hover,
+.modal__book-button:hover {
   background-color: var(--accent-hover);
 }
 .button_of_entry:active,
 .sign_button:active,
-.modal__button_close:active, .modal__book-button:active {
+.modal__button_close:active,
+.modal__book-button:active {
   background-color: var(--accent-active);
   color: var(--gray);
 }
@@ -304,6 +307,7 @@ details p {
   padding: 1.1rem 1.3rem;
   align-self: center;
 }
+
 /* -----------------------модальное окно------------------------- */
 .modal {
   display: none;
@@ -354,7 +358,7 @@ details p {
   right: 0rem;
   width: 2rem;
   height: 2rem;
-  border-radius: 0 2rem  0 0.8rem;
+  border-radius: 0 2rem 0 0.8rem;
   background-color: inherit;
   font-weight: 600;
   font-size: 2rem;
@@ -378,16 +382,18 @@ details p {
 
 .modal__session {
   flex: 0 0 100%; /* Ширина каждой сессии равна ширине контейнера */
-  
+
   box-sizing: border-box;
   text-align: center;
-  background-color:var(--background);
+  background-color: var(--background);
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
 }
-.modal__date_and_time, .modal__seats, .modal__free_seats{
+.modal__date_and_time,
+.modal__seats,
+.modal__free_seats {
   align-self: center;
   font-size: 1.6rem;
   font-family: "Montserrat", sans-serif;
@@ -417,15 +423,16 @@ details p {
   border-radius: 1rem;
   border: var(--text) 0.1rem solid;
   font-size: 1.6rem;
-  font-family: "Montserrat", sans-serif; 
+  font-family: "Montserrat", sans-serif;
   width: 5rem;
 }
-.modal__people-count:focus,  .modal__people-count:hover{
+.modal__people-count:focus,
+.modal__people-count:hover {
   background-color: var(--gray);
 }
 
 .modal__book-button {
-  margin:  0 auto;
+  margin: 0 auto;
 }
 .modal__prev,
 .modal__next {
