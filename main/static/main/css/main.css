@@ -420,9 +420,8 @@ details p {
   height: 1rem;
   border-radius: 0 2rem  0 0.8rem;
   background-color: var(--background);
-  font-weight: 600;
   font-size: 2rem;
-  background-image: url("cross.svg");
+  background-image: url("cross.png");
   background-size: cover;
   padding: 2rem;
   background-position: center;
