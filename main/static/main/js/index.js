@@ -186,7 +186,7 @@ function openModal(eventId) {
       </div>
       <button class="modal__prev"></button>
       <button class="modal__next"></button>
-      <button class="modal__button_close"></button>
+      <button class="modal__button_close">x</button>
       <p class="modal__status"></p>
     </div>
   `;
