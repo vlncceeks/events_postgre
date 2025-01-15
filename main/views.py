@@ -124,7 +124,7 @@ def register_event(request, session_id):
         session.available_seats -= number_of_people
         session.save()
 
-        # Создаём запись о регистрации
+
         EventParticipant.objects.create(
             user=request.user,
             session=session,
@@ -146,4 +146,5 @@ class SessionListAPIView(ListAPIView):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer  # Используйте SessionSerializer здесь
     filter_backends = [DjangoFilterBackend]
+
     filterset_fields = ['date_time']  # Фильтрация по дате

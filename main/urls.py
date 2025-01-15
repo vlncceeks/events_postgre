@@ -1,3 +1,4 @@
+
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
@@ -21,5 +22,5 @@ urlpatterns += [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),  # Здесь "/" это путь к главной странице
     path('api/register_event/<int:session_id>/', views.register_event, name='register-event'),
     path('api/events/<int:pk>/', EventDetailAPIView.as_view(), name='event-detail'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
