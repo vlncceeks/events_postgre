@@ -10,7 +10,7 @@ class Event(models.Model):
     materials = models.TextField('Материалы', blank=True, null=True)
     photo = models.ImageField(upload_to='images/', blank=True, null=True)
 
-    def str(self):
+    def __str__(self):
         return self.title
 
 
@@ -18,7 +18,7 @@ class Session(models.Model):
     date_time = models.DateTimeField('Дата и время', unique=True)
     total_seats = models.PositiveIntegerField('Всего мест', default=0)
 
-    def str(self):
+    def __str__(self):
         return self.date_time.strftime('%Y-%m-%d %H:%M')
 
 
@@ -30,7 +30,7 @@ class EventSession(models.Model):
     class Meta:
         unique_together = ('event', 'session')
 
-    def str(self):
+    def __str__(self):
         return f"{self.event.title} — {self.session.date_time}"
 
 
