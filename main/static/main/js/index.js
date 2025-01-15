@@ -296,6 +296,7 @@ function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
     })
     .then((data) => {
       if (data.success) {
+        alert("Вы успешно зарегистрировались");
         statusMessage.textContent = data.message;
         statusMessage.style.color = "green";
       } else {
