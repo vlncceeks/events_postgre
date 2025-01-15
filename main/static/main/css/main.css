@@ -264,8 +264,7 @@ main {
   background-color: var(--accent-hover);
 }
 .button_of_entry:active,
-.sign_button:active,
-.modal__button_close:active, .modal__book-button:active {
+.sign_button:active, .modal__book-button:active {
   background-color: var(--accent-active);
   color: var(--gray);
 }
@@ -417,16 +416,19 @@ details p {
   position: absolute;
   top: 0rem;
   right: 0rem;
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 0 2rem  0 0.8rem;
-  background-color: var(--block);
+  background-color: var(--background);
   font-weight: 600;
   font-size: 2rem;
   background-image: url("cross.svg");
   background-size: cover;
   padding: 2rem;
   background-position: center;
+}
+.modal__button_close:hover{
+  background-color: var(--background);
 }
 
 .modal__slider {
