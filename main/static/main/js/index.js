@@ -3,8 +3,9 @@ const form = document.querySelector(".search__form");
 const search = document.querySelector(".search__input");
 const modalWindow = document.querySelector(".modal");
 
-const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
+const URL_API = "http://127.0.0.1:8000/api/events/";
 let allEvents = []; // Глобальный массив для хранения всех событий
+console.log("CSRF Token:", getCookie("csrftoken"));
 
 window.onscroll = function () {
   toggleScrollButton();
@@ -244,23 +245,53 @@ function openModal(eventId) {
 }
 
 function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
-  fetch(
-    `https://eventspostgre-production.up.railway.app/api/register_event/${sessionId}/`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify({
-        session_id: sessionId,
-        number_of_people: numberOfPeople,
-      }),
-    }
-  )
+  fetch(`/api/register_event/${sessionId}/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+    body: JSON.stringify({
+      session_id: sessionId,
+      number_of_people: numberOfPeople,
+    }),
+  })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Ошибка HTTP: " + response.status);
+        if (response.status === 401) {
+          alert(
+            "Вы не авторизованы. Пожалуйста, войдите в систему, чтобы зарегистрироваться на мероприятие."
+          );
+          throw new Error(
+            "Вы не авторизованы. Пожалуйста, войдите в систему, чтобы зарегистрироваться на мероприятие."
+          );
+        } else if (response.status === 400) {
+          alert(
+            "Указано некорректное количество мест. Проверьте данные и повторите попытку."
+          );
+          throw new Error(
+            "Указано некорректное количество мест. Проверьте данные и повторите попытку."
+          );
+        } else if (response.status === 409) {
+          alert(
+            "Вы уже зарегистрированы на это мероприятие. Проверьте ваши записи."
+          );
+          throw new Error(
+            "Вы уже зарегистрированы на это мероприятие. Проверьте ваши записи."
+          );
+        } else if (response.status === 410) {
+          alert(
+            "К сожалению, все места уже заняты. Попробуйте выбрать другое мероприятие."
+          );
+          throw new Error(
+            "К сожалению, все места уже заняты. Попробуйте выбрать другое мероприятие."
+          );
+        } else {
+          alert("Произошла ошибка при бронировании. Попробуйте снова.");
+          throw new Error(
+            "Произошла ошибка при бронировании. Попробуйте снова."
+          );
+        }
       }
       return response.json();
     })
@@ -274,7 +305,7 @@ function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
       }
     })
     .catch((error) => {
-      statusMessage.textContent = "Произошла ошибка при бронировании.";
+      statusMessage.textContent = error.message; // Отображаем текст ошибки в модальном окне
       statusMessage.style.color = "red";
       console.error("Ошибка бронирования:", error);
     });

@@ -30,6 +30,12 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializers import EventSessionSerializer
+import logging
+
+
 
 class EventListView(ListAPIView):
     queryset = Event.objects.all()
@@ -38,10 +44,17 @@ class EventListView(ListAPIView):
     search_fields = ['title']  # Поле, по которому будет происходить поиск
 
 
+from django.views.decorators.csrf import ensure_csrf_cookie
 
+@ensure_csrf_cookie
 def index(request):
     return render(request, "main/index.html")
 
+from django.middleware.csrf import get_token
+
+def some_view(request):
+    csrf_token = get_token(request)
+    print("CSRF Token:", csrf_token)
 
 
 # @login_required
@@ -101,27 +114,34 @@ logger = logging.getLogger(__name__)
 def register_event(request, session_id):
     if request.method == 'POST':
         data = request.data
+        
+        # Проверка: пользователь авторизован
+        if not request.user.is_authenticated:
+            return Response({"error": "Пользователь не зарегистрирован. Войдите в систему, чтобы забронировать место."}, status=401)
+
         try:
-            number_of_people = int(data['number_of_people'])
+            number_of_people = int(data.get('number_of_people', 0))
+            if number_of_people <= 0:
+                raise ValueError
         except ValueError:
-            return Response({"error": "'number_of_people' должно быть числом."}, status=400)
+            return Response({"error": "Неверное количество мест. Укажите корректное значение."}, status=400)
 
         # Получаем EventSession
         session = get_object_or_404(EventSession, id=session_id)
 
         # Проверка: забронировано ли уже пользователем это мероприятие
         if EventParticipant.objects.filter(user=request.user, session=session).exists():
-            return Response({"error": "Вы уже зарегистрированы на это мероприятие."}, status=400)
+            return Response({"error": "Вы уже зарегистрированы на это мероприятие."}, status=409)
 
         # Проверяем доступность мест
         if session.available_seats < number_of_people:
-            return Response({"error": "Недостаточно мест."}, status=400)
+            return Response({"error": "Места заняты. Недостаточно свободных мест для бронирования."}, status=410)
 
         # Обновляем количество доступных мест
         session.available_seats -= number_of_people
         session.save()
 
-
+        # Создаем запись о бронировании
         EventParticipant.objects.create(
             user=request.user,
             session=session,

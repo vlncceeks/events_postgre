@@ -26,8 +26,8 @@ ALLOWED_HOSTS = ['demo2-events-production.up.railway.app', 'yourdomain.com', '12
 CSRF_TRUSTED_ORIGINS = [
     'https://eventspostgre-production.up.railway.app',
 ]
-CSRF_COOKIE_SECURE = True  # Убедитесь, что это не True, если вы не используете HTTPS
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = False  # Убедитесь, что это не True, если вы не используете HTTPS
+CSRF_COOKIE_HTTPONLY = False
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 # Application definition
 
@@ -98,7 +98,7 @@ DATABASES = {
     }
 
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 SECRET_KEY = config('SECRET_KEY', default='asdfgh12345')
 
 
