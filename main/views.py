@@ -34,7 +34,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import EventSessionSerializer
 import logging
-
+from rest_framework.permissions import AllowAny
+from .pagination import CustomPagination  
 
 
 class EventListView(ListAPIView):
@@ -42,6 +43,7 @@ class EventListView(ListAPIView):
     serializer_class = EventSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']  # Поле, по которому будет происходить поиск
+    permission_classes = [AllowAny] 
 
 
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -100,11 +102,19 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class EventListAPIView(APIView):
+    """
+    API для отображения списка событий с поддержкой пагинации.
+    """
+    pagination_class = CustomPagination
+
     def get(self, request):
         search_query = request.GET.get("search", "")
         events = Event.objects.filter(title__icontains=search_query)
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+        paginator = self.pagination_class()
+        paginated_events = paginator.paginate_queryset(events, request)
+        serializer = EventSerializer(paginated_events, many=True)
+        return paginator.get_paginated_response(serializer.data)
+        
 # main/views.py
 
 logger = logging.getLogger(__name__)
@@ -155,6 +165,7 @@ def register_event(request, session_id):
 class EventDetailAPIView(RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [AllowAny]
 
 
 class SessionListAPIView(ListAPIView):
@@ -166,3 +177,4 @@ class SessionListAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
 
     filterset_fields = ['date_time']  # Фильтрация по дате
+    permission_classes = [AllowAny] 

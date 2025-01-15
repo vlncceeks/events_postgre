@@ -2,10 +2,11 @@ const wrapper = document.querySelector(".wrapper__activity");
 const form = document.querySelector(".search__form");
 const search = document.querySelector(".search__input");
 const modalWindow = document.querySelector(".modal");
-
+const loadMoreButton = document.getElementById("loadMore");
 const URL_API = "https://eventspostgre-production.up.railway.app/api/events/";
 let allEvents = []; // Глобальный массив для хранения всех событий
-
+let currentPage = 1; // Текущая страница
+let hasMoreEvents = true; // Флаг наличия новых данных
 var scrollToTopBtn = document.getElementById("scrollToTop");
 
 // Функция для показа или скрытия кнопки
@@ -24,18 +25,26 @@ scrollToTopBtn.onclick = function () {
 };
 
 // Функция для получения всех событий
-async function getEvents(url) {
+async function getEvents(url, page = 1) {
+  if (!hasMoreEvents) return; // Если больше данных нет, ничего не делаем
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${url}?page=${page}`);
 
     if (!response.ok) {
       throw new Error(`Ошибка HTTP: ${response.status}`);
     }
 
     const respData = await response.json();
-    console.log(respData);
-    allEvents = respData; // Сохраняем все события
-    showEvent(respData);
+
+    if (respData.results.length === 0) {
+      hasMoreEvents = false; // Если больше данных нет, отключаем кнопку
+      loadMoreButton.style.display = "none"; // Скрываем кнопку
+      return;
+    }
+
+    showEvent(respData.results); // Отображаем текущую порцию событий
+    currentPage++; // Увеличиваем номер текущей страницы
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
@@ -52,8 +61,8 @@ function showEvent(data) {
       ${
         event.photo
           ? `<div class="event__container_image">
-                          <img src="${event.photo}" alt="event" class="event__image" id="image">
-                        </div>`
+        <img src="${event.photo}" alt="event" class="event__image" id="image">
+      </div>`
           : ""
       }
       <div class="events__content content">
@@ -73,24 +82,13 @@ function showEvent(data) {
       </div>
     `;
 
-    const signButton = eventElement.querySelector(".content__sign_button");
-    signButton.addEventListener("click", async (e) => {
-      const eventId = e.target.getAttribute("data-event-id");
-      openModal(eventId);
-      const btn_close = document.querySelector(".modal__button_close");
-      btn_close.addEventListener("click", closeModal);
-
-      const displayClose = document.querySelector(".modal--show");
-      displayClose.addEventListener("click", (e) => {
-        if (e.target.className == "modal modal--show") {
-          closeModal();
-        }
-      });
-    });
-
     wrapper.appendChild(eventElement);
   });
 }
+
+loadMoreButton.addEventListener("click", () => {
+  getEvents(URL_API, currentPage);
+});
 
 // Функция для получения CSRF токена
 function getCookie(name) {
