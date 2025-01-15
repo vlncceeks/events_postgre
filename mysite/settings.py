@@ -91,19 +91,22 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATABASE_PATH = os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('PGDATABASE'),
-            'USER': config('PGUSER'),
-            'PASSWORD': config('PGPASSWORD'),
-            'HOST': config('PGHOST', default='localhost'),
-            'PORT': config('PGPORT', cast=int, default=5432),
+            'NAME': 'railway',
+            'USER': 'postgres',
+            'PASSWORD': 'eMXDjWASXHZMzIgAUucMQlPeFEnqbtpE',
+            'HOST': 'autorack.proxy.rlwy.net',
+            'PORT': '24318',
             'OPTIONS': {
                 'client_encoding': 'UTF8',  # Указываем кодировку
             },
         }
     }
+
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config('SECRET_KEY', default='asdfgh12345')
