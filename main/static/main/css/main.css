@@ -526,14 +526,12 @@ details p {
 footer {
   border-radius: 2rem 2rem 0 0;
   box-shadow: var(--very-mild-shadow);
-  position: fixed;
   bottom: 0;
   width: 100vw;
   height: fit-content;
   padding: 2rem;
   display: flex;
   justify-content: space-between;
-  z-index: 3;
 }
 .footer__image {
   background-image: url(logo_text.png);
