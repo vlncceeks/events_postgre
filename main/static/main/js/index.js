@@ -142,6 +142,8 @@ function showSearchEvents(data) {
 // -------------------модалка--------------
 function openModal(eventId) {
   modalWindow.classList.add("modal--show");
+  modalWindow.setAttribute("data-event-id", eventId);
+
   document.body.classList.add("stop-scroling");
 
   // Находим событие по ID из локального массива
@@ -155,7 +157,7 @@ function openModal(eventId) {
   const sessions = event.event_sessions
     .map(
       (session) => `
-        <div class="modal__session">
+        <div class="modal__session" data-session-id="${session.id}">
           <p class="modal__date_and_time">${new Date(
             session.date_time
           ).toLocaleString()}</p>
@@ -221,11 +223,16 @@ function openModal(eventId) {
   document.querySelectorAll(".modal__book-button").forEach((button) => {
     button.addEventListener("click", (e) => {
       const sessionId = e.target.getAttribute("data-session-id");
-      const peopleCountInput = e.target.previousElementSibling; // Поле с количеством людей
+
+      const peopleCountInput = e.target.previousElementSibling.querySelector(
+        ".modal__people-count"
+      );
       const numberOfPeople = parseInt(peopleCountInput.value, 10);
 
       if (numberOfPeople > 0) {
-        bookSession(sessionId, numberOfPeople, statusMessage);
+        const eventId = modalWindow.getAttribute("data-event-id"); // Сохраняйте eventId в модальном окне
+        const statusMessage = document.querySelector(".modal__status");
+        bookSession(eventId, sessionId, numberOfPeople, statusMessage);
       } else {
         alert("Укажите корректное количество участников!");
       }
@@ -236,15 +243,21 @@ function openModal(eventId) {
   closeButton.addEventListener("click", closeModal);
 }
 
-function bookSession(sessionId, numberOfPeople, statusMessage) {
-  fetch(`/api/register_event/${sessionId}/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken"),
-    },
-    body: JSON.stringify({ number_of_people: numberOfPeople }),
-  })
+function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
+  fetch(
+    `https://eventspostgre-production.up.railway.app/api/register_event/${sessionId}/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        session_id: sessionId,
+        number_of_people: numberOfPeople,
+      }),
+    }
+  )
     .then((response) => {
       if (!response.ok) {
         throw new Error("Ошибка HTTP: " + response.status);

@@ -97,11 +97,21 @@ class EventListAPIView(APIView):
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def register_event(request, session_id):
     """
     Регистрация пользователя на мероприятие (сессию).
     """
+    if request.method == 'GET':
+        # Получаем информацию о конкретной сессии
+        session = get_object_or_404(EventSession, id=session_id)
+        
+        # Сериализация данных сессии
+        serializer = EventSessionSerializer(session)
+        
+        # Возвращаем данные о сессии
+        return Response(serializer.data, status=200)
+    
     if request.method == 'POST':
         data = request.data
         try:
@@ -133,6 +143,7 @@ def register_event(request, session_id):
 
         return Response({"success": True, "message": "Успешно забронировано!"}, status=200)
 
+   
 
 class EventDetailAPIView(RetrieveAPIView):
     queryset = Event.objects.all()
