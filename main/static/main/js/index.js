@@ -81,6 +81,19 @@ function showEvent(data) {
         </button>
       </div>
     `;
+    const signButton = eventElement.querySelector(".content__sign_button");
+    signButton.addEventListener("click", async (e) => {
+      const eventId = e.target.getAttribute("data-event-id");
+      openModal(eventId);
+      const btn_close = document.querySelector(".modal__button_close");
+      btn_close.addEventListener("click", closeModal);
+      const displayClose = document.querySelector(".modal--show");
+      displayClose.addEventListener("click", (e) => {
+        if (e.target.className == "modal modal--show") {
+          closeModal();
+        }
+      });
+    });
 
     wrapper.appendChild(eventElement);
   });
