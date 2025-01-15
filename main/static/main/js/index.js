@@ -8,17 +8,20 @@ let allEvents = []; // Глобальный массив для хранения
 
 var scrollToTopBtn = document.getElementById("scrollToTop");
 
-    // Функция для показа или скрытия кнопки
-    window.onscroll = function() {
-        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-            scrollToTopBtn.style.display = "block";
-        } else {
-            scrollToTopBtn.style.display = "none";
-        }
-    };
-scrollToTopBtn.onclick = function() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// Функция для показа или скрытия кнопки
+window.onscroll = function () {
+  if (
+    document.body.scrollTop > 200 ||
+    document.documentElement.scrollTop > 200
+  ) {
+    scrollToTopBtn.style.display = "block";
+  } else {
+    scrollToTopBtn.style.display = "none";
+  }
+};
+scrollToTopBtn.onclick = function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 // Функция для получения всех событий
 async function getEvents(url) {
@@ -153,10 +156,19 @@ function openModal(eventId) {
     return;
   }
 
+  const filterField = `
+    <div class="modal__filter">
+      <label for="filter-date">Фильтровать по дате:</label>
+      <input type="date" id="filter-date" class="modal__filter-date">
+    </div>
+  `;
+
   const sessions = event.event_sessions
     .map(
       (session) => `
-        <div class="modal__session" data-session-id="${session.id}">
+        <div class="modal__session" data-session-id="${
+          session.id
+        }" data-date="${session.date_time}">
           <p class="modal__date_and_time">${new Date(
             session.date_time
           ).toLocaleString()}</p>
@@ -179,6 +191,7 @@ function openModal(eventId) {
 
   modalWindow.innerHTML = `
     <div class="modal__card">
+      ${filterField}
       <div class="modal__slider">
         <div class="modal__slides">
           ${sessions}
@@ -193,7 +206,25 @@ function openModal(eventId) {
 
   const statusMessage = document.querySelector(".modal__status");
 
-  // Логика слайдера (без изменений)
+  // Логика фильтрации по дате
+  const filterInput = document.querySelector("#filter-date");
+  filterInput.addEventListener("input", () => {
+    const selectedDate = new Date(filterInput.value)
+      .toISOString()
+      .split("T")[0];
+    document.querySelectorAll(".modal__session").forEach((sessionElement) => {
+      const sessionDate = new Date(sessionElement.dataset.date)
+        .toISOString()
+        .split("T")[0];
+      if (sessionDate === selectedDate || filterInput.value === "") {
+        sessionElement.style.display = "block";
+      } else {
+        sessionElement.style.display = "none";
+      }
+    });
+  });
+
+  // Логика слайдера
   const slidesContainer = document.querySelector(".modal__slides");
   const slideElements = document.querySelectorAll(".modal__session");
   const prevButton = document.querySelector(".modal__prev");
@@ -229,8 +260,7 @@ function openModal(eventId) {
       const numberOfPeople = parseInt(peopleCountInput.value, 10);
 
       if (numberOfPeople > 0) {
-        const eventId = modalWindow.getAttribute("data-event-id"); // Сохраняйте eventId в модальном окне
-        const statusMessage = document.querySelector(".modal__status");
+        const eventId = modalWindow.getAttribute("data-event-id");
         bookSession(eventId, sessionId, numberOfPeople, statusMessage);
       } else {
         alert("Укажите корректное количество участников!");
