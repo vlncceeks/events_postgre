@@ -25,7 +25,7 @@ scrollToTopBtn.onclick = function () {
 };
 
 // Функция для получения всех событий
-async function getEvents(url, page = 5) {
+async function getEvents(url, page = 3) {
   if (!hasMoreEvents) return; // Если больше данных нет, ничего не делаем
 
   try {
