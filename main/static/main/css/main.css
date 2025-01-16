@@ -520,6 +520,24 @@ details p {
   font-size: 16px;
   text-align: center;
 }
+.modal__filter label{
+  align-self: center;
+  font-size: 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+.modal__filter-date {
+  background-color: inherit;
+    padding: 0.5rem;
+    width: auto;
+    border-radius: 1rem;
+    border: var(--text) 0.1rem solid;
+    font-size: 1.6rem;
+    font-family: "Montserrat", sans-serif;
+    width: 12rem;
+}
 
 .load-more-button {
   margin: 0 auto;
