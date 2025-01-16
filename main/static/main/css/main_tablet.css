@@ -93,7 +93,7 @@
         justify-self: center;
     }
     .button_of_entry,
-    .sign_button, .modal__book-button {
+    .sign_button, .modal__book-button, .load-more-button  {
         font-size: 2rem;
         min-height: 5rem;
     }
