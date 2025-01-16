@@ -316,7 +316,7 @@ function bookSession(eventId, sessionId, numberOfPeople, statusMessage) {
     })
     .then((data) => {
       statusMessage.textContent = data.message || "Успешно забронировано!";
-      console.log("Бронирование успешно выполнено:", data);
+      alert("Бронирование успешно выполнено");
     })
     .catch((error) => {
       console.error("Ошибка бронирования:", error);
