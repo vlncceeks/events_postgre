@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,  # По умолчанию загружаем 10 элементов
+    'PAGE_SIZE': 3,  # По умолчанию загружаем 10 элементов
     # другие настройки
 }
 

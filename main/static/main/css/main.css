@@ -241,7 +241,7 @@ main {
 }
 .button_of_entry,
 .sign_button,
-.modal__button_close, .modal__book-button, #scrollToTop {
+.modal__button_close, .modal__book-button, #scrollToTop, .load-more-button {
   background-color: var(--accent);
   border: 0;
   border-radius: 1rem;
@@ -520,6 +520,11 @@ details p {
   font-size: 16px;
   text-align: center;
 }
+
+.load-more-button {
+  margin: 0 auto;
+}
+
 footer {
   border-radius: 2rem 2rem 0 0;
   box-shadow: var(--very-mild-shadow);
