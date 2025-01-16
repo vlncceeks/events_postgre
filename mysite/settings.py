@@ -19,12 +19,12 @@ SECRET_KEY = 'django-insecure-rc^*w^w&6g9_(uvx#6s*bnt!w)l0rdi%!l7mv#yuc&x%wo5pk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['demo2-events-production.up.railway.app', 'yourdomain.com', '127.0.0.1:8000', '127.0.0.1', 'eventspostgre-production.up.railway.app']
+ALLOWED_HOSTS = ['demo2-events-production.up.railway.app', 'yourdomain.com', '127.0.0.1:8000', '127.0.0.1', 'events-polytech.up.railway.app']
 
 # FORM SUBMISSION
 # Comment out the following line and place your railway URL, and your production URL in the array.
 CSRF_TRUSTED_ORIGINS = [
-    'https://eventspostgre-production.up.railway.app',
+    'https://events-polytech.up.railway.app',
 ]
 CSRF_COOKIE_SECURE = False  # Убедитесь, что это не True, если вы не используете HTTPS
 CSRF_COOKIE_HTTPONLY = False
@@ -166,7 +166,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'https://eventspostgre-production.up.railway.app',
+    'https://events-polytech.up.railway.app',
     
 ]
 
