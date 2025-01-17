@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from decouple import config
 import environ
-
+from django.conf.urls.static import static
 
 
 

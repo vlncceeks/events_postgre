@@ -57,12 +57,11 @@ function showEvent(data) {
     const eventElement = document.createElement("div");
 
     eventElement.classList.add("activity__event", "event");
-
     eventElement.innerHTML = `
       ${
         event.photo
-          ? `<div class="event__container_image">
-        <img src="${event.photo}" alt="event" class="event__image" id="image">
+          ? `<div class="event__container_image" style="width: 100%; height: 400px; background-image: url('${event.photo}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        
       </div>`
           : ""
       }
