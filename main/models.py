@@ -31,8 +31,9 @@ class EventSession(models.Model):
         unique_together = ('event', 'session')
 
     def __str__(self):
-        return f"{self.event.title} — {self.session.date_time}"
-
+        event = self.event.title if self.event else "Unknown Event"
+        session = self.session.date_time.strftime('%Y-%m-%d %H:%M') if self.session else "Unknown Session"
+        return f"{event} — {session}"
 
 class EventParticipant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
