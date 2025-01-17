@@ -284,7 +284,46 @@ main {
 }
 .event__container_image {
   height: 23rem;
+  border-radius: 2rem 2rem 0 0;
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat;
 }
+.activity div:nth-child(3) .event__container_image{
+  background-image: url('./images/images/искуственный_интеллект_в_стартапах.jpg');
+}
+
+.activity div:nth-child(2) .event__container_image{
+  background-image: url('./images/images/искуственный_интеллект_в_образовании.jpg');
+}
+.activity div:nth-child(5) .event__container_image{
+  background-image: url('./images/images/как_стать_разработчиком_игр.jpg');
+}
+.activity div:nth-child(8) .event__container_image{
+  background-image: url('./images/images/как_сделать_школьный_проект.jpg');
+}
+.activity div:nth-child(11) .event__container_image{
+  background-image: url('./images/images/поврежденный_кабель.jpg');
+}
+.activity div:nth-child(17) .event__container_image{
+  background-image: url('./images/images/создай_патчкорд.jpg');
+}
+.activity div:nth-child(19) .event__container_image{
+  background-image: url('./images/images/сетевая_розетка.png');
+}
+.activity div:nth-child(20) .event__container_image{
+  background-image: url('./images/images/кодирование_информации.jpg');
+}
+.activity div:nth-child(28) .event__container_image{
+  background-image: url('./images/images/генерация_изображений_с_помощью_ИИ.jpg');
+}
+.activity div:nth-child(29) .event__container_image{
+  background-image: url('./images/images/пошаговое_моделирование_бизнес_процессов.jpg');
+}
+.activity div:nth-child(30) .event__container_image{
+  background-image: url('./images/images/быстрая_разработка_приложения.jpg');
+}
+
 .event__image {
   object-fit: cover;
   width: 100%;

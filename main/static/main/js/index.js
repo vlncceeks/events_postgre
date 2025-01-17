@@ -60,7 +60,7 @@ function showEvent(data) {
     eventElement.innerHTML = `
       ${
         event.photo
-          ? `<div class="event__container_image" style="width: 100%; height: 400px; background-image: url('${event.photo}'); background-size: cover; background-position: center; background-repeat: no-repeat; ">
+          ? `<div class="event__container_image">
         
       </div>`
           : ""
