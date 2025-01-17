@@ -12,8 +12,8 @@
       rel="stylesheet"
       href="{% static 'users_registration/css/users_tablet.css' %}?v=2.0"
     />
-    
-    <link rel="icon" href="./logo.png" type="image/png">
+
+    <link rel="icon" href="./logo.png" type="image/png" />
     <title>Вход</title>
   </head>
   <body>
@@ -22,16 +22,37 @@
       <section class="registration">
         <div class="registration__wrapper">
           <h1 class="registration__title">Вход</h1>
-          <form action="{% url 'users:login'%}" method="post" class="registration__form">
-            {% comment %} {% csrf_token %} {{ form.as_p }} {% endcomment %}
-            {%csrf_token %}
-            <!-- Логин -->
+          <form
+            action="{% url 'users:login' %}"
+            method="post"
+            class="registration__form"
+          >
+            {% csrf_token %}
 
-            {{ form.username }}
+            <!-- Логин -->
+            <div class="form-group">
+              {{ form.username }} {% if form.username.errors %}
+              <div class="error-message">
+                {{ form.username.errors|striptags }}
+              </div>
+              {% endif %}
+            </div>
 
             <!-- Пароль -->
+            <div class="form-group">
+              {{ form.password }} {% if form.password.errors %}
+              <div class="error-message">
+                {{ form.password.errors|striptags }}
+              </div>
+              {% endif %}
+            </div>
 
-            {{ form.password }}
+            <!-- Общие ошибки (например, неверный логин или пароль) -->
+            {% if form.non_field_errors %}
+            <div class="error-message">
+              {{ form.non_field_errors|striptags }}
+            </div>
+            {% endif %}
 
             <button type="submit" class="registraion__create_acc">Войти</button>
           </form>
