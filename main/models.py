@@ -59,7 +59,7 @@ class EventParticipant(models.Model):
 
         super().delete(*args, **kwargs)
 
-    def str(self):
+    def __str__(self):
         return f"{self.user.username} зарегистрирован на {self.session} ({self.number_of_people} чел.)"
 
 
