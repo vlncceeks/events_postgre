@@ -19,50 +19,61 @@
   <body>
     <header></header>
     <main>
-      <form
-        action="{% url 'users:register' %}"
-        method="post"
-        class="registration__form"
-      >
-        {% csrf_token %}
+      <section class="registration">
+        <div class="registration__wrapper">
+          <h1 class="registration__title">Регистрация</h1>
+          <form
+            action="{% url 'users:register' %}"
+            method="post"
+            class="registration__form"
+          >
+            {% csrf_token %}
 
-        <!-- Логин -->
-        <div class="form-group">
-          {{ form.username }} {% if form.username.errors %}
-          <div class="error-message">{{ form.username.errors|striptags }}</div>
-          {% endif %}
+            <!-- Логин -->
+            <div class="form-group">
+              {{ form.username }} {% if form.username.errors %}
+              <div class="error-message">
+                {{ form.username.errors|striptags }}
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              {{ form.email }} {% if form.email.errors %}
+              <div class="error-message">{{ form.email.errors|striptags }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Пароль -->
+            <div class="form-group">
+              {{ form.password1 }} {% if form.password1.errors %}
+              <div class="error-message">
+                {{ form.password1.errors|striptags }}
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Подтверждение пароля -->
+            <div class="form-group">
+              {{ form.password2 }} {% if form.password2.errors %}
+              <div class="error-message">
+                {{ form.password2.errors|striptags }}
+              </div>
+              {% endif %}
+            </div>
+
+            <button type="submit" class="registraion__create_acc">
+              Создать аккаунт
+            </button>
+          </form>
+          <div class="registration__link_to_entry entry">
+            <p class="entry__text">Есть аккаунт?</p>
+            <a href="{% url 'users:login' %}" class="entry__button">Войти</a>
+            <!-- Здесь правильная ссылка на страницу входа -->
+          </div>
         </div>
-
-        <!-- Email -->
-        <div class="form-group">
-          {{ form.email }} {% if form.email.errors %}
-          <div class="error-message">{{ form.email.errors|striptags }}</div>
-          {% endif %}
-        </div>
-
-        <!-- Пароль -->
-        <div class="form-group">
-          {{ form.password1 }} {% if form.password1.errors %}
-          <div class="error-message">{{ form.password1.errors|striptags }}</div>
-          {% endif %}
-        </div>
-
-        <!-- Подтверждение пароля -->
-        <div class="form-group">
-          {{ form.password2 }} {% if form.password2.errors %}
-          <div class="error-message">{{ form.password2.errors|striptags }}</div>
-          {% endif %}
-        </div>
-
-        <button type="submit" class="registraion__create_acc">
-          Создать аккаунт
-        </button>
-      </form>
-
-      <div class="registration__link_to_entry entry">
-        <p class="entry__text">Есть аккаунт?</p>
-        <a href="{% url 'users:login' %}" class="entry__button">Войти</a>
-      </div>
+      </section>
     </main>
     <footer></footer>
   </body>
