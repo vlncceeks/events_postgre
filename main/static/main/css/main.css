@@ -289,6 +289,9 @@ main {
   background-position: center; 
   background-repeat: no-repeat;
 }
+.activity div:nth-child(1) .event__container_image{
+  background-image: url('./images/images/it_events.jpg');
+}
 .activity div:nth-child(3) .event__container_image{
   background-image: url('./images/images/искуственный_интеллект_в_стартапах.jpg');
 }
